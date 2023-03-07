@@ -6,7 +6,6 @@
 </div>
 
 ## Suggestion
-
 > - Edit wm in file xshot.sh line 
 > - This tools not support android 12+
 > - Using the [**F-droid**](https://f-droid.org/en/packages/com.termux/) version of termux
@@ -22,13 +21,15 @@ pkg i imagemagick inotify-tools bc nano -y
 bash install.sh
 ```
 
-##RUN
+## RUN
 ```
 bash xshot.sh
 ```
-##Note
+## Note
 Setelah melakukan command diatas kalian tinggal pilih option sesuai selera contoh:
 ```
 bash xshot.sh -a -d
 ```
 yang berarti menjalankan file xshot.sh dengan option -a (otomatis)  dan -d (warna background hitam) 
+
+jika saat memulai proses 'waiting nee file' lalu exit proses coba lakukan restart termux atau pastikan packahe inotify-tools benar2 telah terinstall
