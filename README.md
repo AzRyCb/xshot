@@ -7,6 +7,7 @@
 
 ## Suggestion
 
+> - edit wm in file xshot.sh line :
 > - using the [**F-droid**](https://f-droid.org/en/packages/com.termux/) version of termux
 > - use a third party app to capture the screen. Example: [**screen master**](https://play.google.com/store/apps/details?id=pro.capture.screenshot)
 
@@ -20,8 +21,13 @@ cd xshot
 bash install.sh
 ```
 
-RUN
+##RUN
 ```
 bash xshot.sh
-OR bash xshot.sh -a -d
 ```
+##Note
+Setelah melakukan command diatas kalian tinggal pilih option sesuai selera contoh:
+```
+bash xshot.sh -a -d
+```
+yang berarti menjalankan file xshot.sh dengan option -a (otomatis)  dan -d (warna background hitam) 
