@@ -148,7 +148,7 @@ ${r}             ╔════════════════════
 help() {
   echo -e "${y}
   Usage :
-      xshot [options1] [options2] [options3]
+      bash xshot.sh [options1] [options2] [options3]
 
       options 1:
       -h       Show help display
@@ -164,8 +164,8 @@ help() {
 
       examples:
       
-      xshot -a -l
-      xshot -a -l -!
+      bash xshot.sh -a -l
+      bash xshot.sh -a -l -!
 
   "
 }
