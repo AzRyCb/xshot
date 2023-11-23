@@ -7,17 +7,17 @@
 
 ## Suggestion
 > - Edit wm in file xshot.sh line 
-> - This tools not support android 12+
+> - Can be used on Android 12+ but not yet perfected
 > - Using the [**F-droid**](https://f-droid.org/en/packages/com.termux/) version of termux
 > - Use a third party app to capture the screen. Example: [**screen master**](https://play.google.com/store/apps/details?id=pro.capture.screenshot)
 
 ## Instalation For Termux
 ```
-pkg update && pkg upgrade
-git clone https://github.com/AzRyCb/xshot
+pkg install && pkg update && pkg install git 
 termux-setup-storage
+git clone https://github.com/AzRyCb/xshot
 cd xshot
-pkg i imagemagick inotify-tools bc nano -y
+pkg i imagemagick -y && pkg i inotify-tools bc nano
 bash install.sh
 ```
 
@@ -32,4 +32,8 @@ bash xshot.sh -a -d
 ```
 yang berarti menjalankan file xshot.sh dengan option -a (otomatis)  dan -d (warna background hitam) 
 
-jika saat memulai proses 'waiting nee file' lalu exit proses coba lakukan restart termux atau pastikan packahe inotify-tools benar2 telah terinstall
+jika saat memulai proses 'waiting new file' lalu exit proses coba lakukan restart termux atau pastikan package inotify-tools benar2 telah terinstall
+dengan memakai command
+```
+pkg install inotify-tools
+```
