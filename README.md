@@ -1,6 +1,6 @@
 <div align="center">
   <img src="/assets/banner.png">
-  <p><b>v1.0.4</b></p>
+  <p><b>v1.0.5</b></p>
   <br><br>
   <P><b>A tool to make your screenshots look better</b></p>
 </div>
@@ -13,11 +13,10 @@
 
 ## Instalation For Termux
 ```
-pkg install && pkg update && pkg install git 
+pkg install && pkg update && pkg install git imagemagick inotify-tools bc nano -y
 termux-setup-storage
 git clone https://github.com/AzRyCb/xshot
 cd xshot
-pkg i imagemagick -y && pkg i inotify-tools bc nano
 bash install.sh
 ```
 
