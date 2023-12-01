@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # xshot automatic screenshots
 # coded by D_baj
-# xshot 1.0.3
+# recode by AzRycb
+# xshot 1.0.4 Remake
 
 # color
 o='\033[0m'
@@ -167,6 +168,10 @@ help() {
       bash xshot.sh -a -l
       bash xshot.sh -a -l -!
 
+      or
+
+      bash xshot.sh -a -d (default)
+
   "
 }
 program_info(){
@@ -178,12 +183,13 @@ program_info(){
                  ║     ╔╝╚╗╚══╗║╔═╗║║ ║║ ║║      ║
                  ║    ╔╝╔╗╚╣╚═╝║║ ║║╚═╝║ ║║      ║
                  ║    ╚═╝╚═╩═══╩╝ ╚╩═══╝ ╚╝      ║
-                 ║            ${b}V1.0.3${r}             ║
+                 ║            ${b}V1.0.4${r}             ║
                  ║       screenshot tools${r}        ║
                  ╚═══════════════════════════════╝
 ${b}
             A tool to make your screenshots look better
-                           Owner : D_4J
+                           Owner : D_4
+                           Remake : AzRycb
                      Build date : 05/05/2022"
 }
 autoshot() {
