@@ -188,7 +188,7 @@ program_info(){
                  ╚═══════════════════════════════╝
 ${b}
             A tool to make your screenshots look better
-                           Owner : D_4
+                           Owner : D_4J
                            Remake : AzRycb
                      Build date : 05/05/2022"
 }
