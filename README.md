@@ -14,8 +14,11 @@
 ## Instalation For Termux
 ```
 pkg install && pkg update -y
-pkg install bc nano
-pkg install git -y && pkg install imagemagick -y && pkg install inotify-tools -y
+pkg install bc
+pkg install nano
+pkg install git -y
+pkg install imagemagick -y
+pkg install inotify-tools -y
 termux-setup-storage
 git clone https://github.com/AzRyCb/xshot
 cd xshot
@@ -25,16 +28,4 @@ bash install.sh
 ## RUN
 ```
 bash xshot.sh
-```
-## Note
-Setelah melakukan command diatas kalian tinggal pilih option sesuai selera contoh:
-```
-bash xshot.sh -a -d
-```
-yang berarti menjalankan file xshot.sh dengan option -a (otomatis)  dan -d (warna background hitam) 
-
-jika saat memulai proses 'waiting new file' lalu exit proses coba lakukan restart termux atau pastikan package inotify-tools benar2 telah terinstall
-dengan memakai command
-```
-pkg install inotify-tools
 ```
