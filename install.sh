@@ -81,7 +81,7 @@ else
   ad
 fi
 echo -e "${r}[${y}nano${r}]"
-if [[ ! "${dir_package}/${package[2]}" ]]; then
+if [[ ! "${dir_package}/${package[3]}" ]]; then
   pkg install nano -y
   check
 else
