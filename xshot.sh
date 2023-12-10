@@ -53,7 +53,7 @@ shadow_size="85x10+0+10"
 shadow_color="${hex_color[3]}"
 # footer text
 owner_info=" @AzRyCb"
-footer_text=" Shot uses xshot recreated by AzRyCb"
+footer_text=" Enhanced Screenshots Using Xshot"
 #footer style
 #xshot
 footer_xy="+0+30"
