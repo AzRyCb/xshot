@@ -14,13 +14,9 @@
 ## Instalation For Termux
 ```
 pkg update -y
-pkg install bc -y
-pkg install nano
-pkg install git -y
-pkg install imagemagick -y
-pkg install inotify-tools -y
-termux-setup-storage
+pkg i git imagemagick inotify-tools bc nano -y
 git clone https://github.com/AzRyCb/xshot
+termux-setup-storage
 cd xshot
 bash install.sh
 ```
