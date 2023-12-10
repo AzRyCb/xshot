@@ -13,8 +13,8 @@
 
 ## Instalation For Termux
 ```
-pkg install && pkg update -y
-pkg install bc
+pkg update -y
+pkg install bc -y
 pkg install nano
 pkg install git -y
 pkg install imagemagick -y
