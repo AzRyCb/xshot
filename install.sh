@@ -21,6 +21,7 @@ package=(
   "magick"
   "inotifywait"
   "bc"
+  "nano"
 )
 log ()
 {
@@ -48,7 +49,7 @@ echo -e "${r}
  ║║║╔╗╣══╣║║╔╗║║║║║║═╣╔╝
 ╔╣╠╣║║╠══║╚╣╔╗║╚╣╚╣║═╣║
 ╚══╩╝╚╩══╩═╩╝╚╩═╩═╩══╩╝${b}
-      xshot 1.0.3
+      xshot 1.0.4
 "
 }
 enter ()
@@ -60,21 +61,28 @@ read -p $"$(enter)" enter
 echo -e "$(log)${b}Installing package requirements"
 echo -e "${r}[${y}imagemagick${r}]"
 if [[ ! "${dir_package}/${package[0]}" ]]; then
-  pkg i imagemagick -y
+  pkg install imagemagick -y
   check
 else
   ad 
 fi
 echo -e "${r}[${y}inotify-tools${r}]"
 if [[ ! "${dir_package}/${package[1]}" ]]; then
-  pkg i inotify-tools -y
+  pkg install inotify-tools -y
   check
 else
   ad
 fi
-echo -e "${r}[${y}Bc${r}]"
+echo -e "${r}[${y}bc${r}]"
 if [[ ! "${dir_package}/${package[2]}" ]]; then
-  pkg i bc -y
+  pkg install bc -y
+  check
+else
+  ad
+fi
+echo -e "${r}[${y}nano${r}]"
+if [[ ! "${dir_package}/${package[2]}" ]]; then
+  pkg install nano -y
   check
 else
   ad
