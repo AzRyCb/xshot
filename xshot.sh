@@ -297,7 +297,7 @@ titlebar(){
 }
 ss() {
   footer_time=" $(date +'%a %d.%h.%Y')  $(date +'%H:%M')"
-  convert "$file" \
+  magick "$file" \
     -alpha set -virtual-pixel transparent \
     -channel A -blur 0x5  -threshold 50% +channel \
     \( +clone -background "${shadow_color}" \
@@ -317,7 +317,7 @@ ss() {
       echo -e "   $(log)${b}Waiting new file"
     fi
   else
-  convert "$file" \
+  magick "$file" \
     -gravity South -background none \
     -font JetBrains-Mono-Medium-Nerd-Font-Complete \
     -pointsize ${footer_size} \
@@ -342,7 +342,7 @@ timeStamp() {
   owner_info=" @D_4J"
   owner_info2=" $(date +'%H:%M')
  $(date +'%a %d.%h.%Y')"
-  convert "${file}" \
+  magick "${file}" \
     -gravity SouthWest -background black \
     -font JetBrains-Mono-Medium-Nerd-Font-Complete \
     -pointsize $footer_size_timeStamp \
