@@ -3,7 +3,7 @@
 # coded by D_baj
 # recode by AzRyCb
 # improved version with better error handling
-# xshot 1.0.5 Enhanced
+# xshot 1.0.6 Enhanced - Fixed pending files issue
 
 # Enable strict error handling
 set -euo pipefail
@@ -23,7 +23,7 @@ readonly -a hex_color=(
     "#1E222B"  # dark2
     "#F8F9FA"  # light
     "#000000"  # black
-    "#ffffff"  # white (fixed typo)
+    "#ffffff"  # white
     "#59d6ff"  # blue
     "#e6e6e6"  # gray
     "#38d13e"  # green
@@ -146,6 +146,70 @@ check_storage() {
     fi
 }
 
+# Function to wait for file to be ready
+wait_for_file() {
+    local filepath="$1"
+    local max_wait=10
+    local wait_time=0
+    
+    while [[ $wait_time -lt $max_wait ]]; do
+        if [[ -f "$filepath" && -r "$filepath" ]]; then
+            # Check if file is not being written to
+            local size1 size2
+            size1=$(stat -c%s "$filepath" 2>/dev/null || echo "0")
+            sleep 0.5
+            size2=$(stat -c%s "$filepath" 2>/dev/null || echo "0")
+            
+            if [[ "$size1" == "$size2" && "$size1" -gt 0 ]]; then
+                return 0
+            fi
+        fi
+        sleep 0.5
+        ((wait_time++))
+    done
+    
+    return 1
+}
+
+# Function to find actual screenshot file
+find_screenshot_file() {
+    local pending_file="$1"
+    local base_name
+    
+    # Extract timestamp from pending filename
+    if [[ "$pending_file" =~ \.pending-[0-9]+-(.+) ]]; then
+        base_name="${BASH_REMATCH[1]}"
+    else
+        return 1
+    fi
+    
+    # Check multiple possible locations
+    local possible_paths=(
+        "${path}/${base_name}"
+        "${path}/backup/${base_name}"
+        "${path}/${pending_file}"
+        "${path}/backup/${pending_file}"
+    )
+    
+    for filepath in "${possible_paths[@]}"; do
+        if wait_for_file "$filepath"; then
+            echo "$filepath"
+            return 0
+        fi
+    done
+    
+    # If not found, wait a bit longer and try again
+    sleep 2
+    for filepath in "${possible_paths[@]}"; do
+        if [[ -f "$filepath" && -r "$filepath" ]]; then
+            echo "$filepath"
+            return 0
+        fi
+    done
+    
+    return 1
+}
+
 # Set theme functions
 light() {
     color="LIGHT"
@@ -222,7 +286,7 @@ ${r}             ╔════════════════════
              ║     ╔╝╚╗╚══╗║╔═╗║║ ║║ ║║      ║
              ║    ╔╝╔╗╚╣╚═╝║║ ║║╚═╝║ ║║      ║
              ║    ╚═╝╚═╩═══╩╝ ╚╩═══╝ ╚╝      ║
-             ║            ${b}V1.0.5${r}             ║
+             ║            ${b}V1.0.6${r}             ║
              ║       screenshot tools${r}        ║
              ╚═══════════════════════════════╝
 
@@ -271,6 +335,7 @@ help() {
       - Watermark monitors: ${camera_path}
       - Backups are saved automatically
       - Requires storage permission (termux-setup-storage)
+      - Fixed pending files issue in v1.0.6
 
 ${o}"
 }
@@ -285,7 +350,7 @@ program_info() {
                  ║     ╔╝╚╗╚══╗║╔═╗║║ ║║ ║║      ║
                  ║    ╔╝╔╗╚╣╚═╝║║ ║║╚═╝║ ║║      ║
                  ║    ╚═╝╚═╩═══╩╝ ╚╩═══╝ ╚╝      ║
-                 ║            ${b}V1.0.5${r}             ║
+                 ║            ${b}V1.0.6${r}             ║
                  ║       screenshot tools${r}        ║
                  ╚═══════════════════════════════╝
 ${b}
@@ -294,6 +359,7 @@ ${b}
                            Remake: AzRyCb
                            Enhanced: $(date +'%Y')
                      Build date: $(date +'%d/%m/%Y')
+                    Fixed pending files issue
 ${o}"
 }
 
@@ -448,14 +514,33 @@ timeStamp() {
 # Main processing function
 main() {
     file_name=$(echo "${filename}" | awk '{print $3}')
-    file="${path}/${file_name}"
     
-    echo -e "   $(log)${b}Processing file: ${y}${file_name}"
+    echo -e "   $(log)${b}Detected file: ${y}${file_name}"
     
-    if [[ ! -f "$file" ]]; then
-        echo -e "   $(log)${r}File not found: $file"
-        return 1
+    # Skip if it's a pending file
+    if [[ "$file_name" =~ ^\.pending- ]]; then
+        echo -e "   $(log)${y}Pending file detected, searching for actual file..."
+        
+        local actual_file
+        if actual_file=$(find_screenshot_file "$file_name"); then
+            file="$actual_file"
+            file_name=$(basename "$file")
+            echo -e "   $(log)${g}Found actual file: ${y}${file_name}"
+        else
+            echo -e "   $(log)${r}Could not find actual screenshot file"
+            return 1
+        fi
+    else
+        file="${path}/${file_name}"
+        
+        # Wait for file to be ready
+        if ! wait_for_file "$file"; then
+            echo -e "   $(log)${r}File not ready or not found: $file"
+            return 1
+        fi
     fi
+    
+    echo -e "   $(log)${b}Processing file: ${y}${file}"
     
     if [[ "$run" == "auto" ]]; then
         backup_file
@@ -482,8 +567,12 @@ autoshot() {
     fi
     
     # Start monitoring with better error handling
-    inotifywait -m -e create "$path" 2>/dev/null | \
+    inotifywait -m -e create -e moved_to "$path" 2>/dev/null | \
     while IFS= read -r filename; do
+        # Skip backup directory events
+        if [[ "$filename" =~ backup/ ]]; then
+            continue
+        fi
         main
     done
 }
